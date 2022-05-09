@@ -27,7 +27,6 @@
 #include <sys/cdefs.h>
 
 #include "graphics.h"
-#include "../yamui-tools.h"
 
 struct adf_surface_pdata {
 	GRSurface base;
@@ -154,7 +153,7 @@ adf_device_init(struct adf_pdata *pdata, struct adf_device *dev)
 /* ------------------------------------------------------------------------ */
 
 static gr_surface
-adf_init(minui_backend *backend, bool blank UNUSED)
+adf_init(minui_backend *backend, bool blank __attribute__((unused)))
 {
 	struct adf_pdata *pdata = (struct adf_pdata *)backend;
 	adf_id_t *dev_ids = NULL;
