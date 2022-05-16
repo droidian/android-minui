@@ -38,8 +38,8 @@ extern char *locale;
 
 /* ------------------------------------------------------------------------ */
 
-static gr_surface
-malloc_surface(size_t data_size)
+gr_surface
+res_malloc_surface(size_t data_size)
 {
 	unsigned char *temp;
 	gr_surface surface;
@@ -177,7 +177,7 @@ init_display_surface(png_uint_32 width, png_uint_32 height)
 {
 	gr_surface surface;
 
-	if (!(surface = malloc_surface(width * height * 4)))
+	if (!(surface = res_malloc_surface(width * height * 4)))
 		return NULL;
 
 	surface->width = width;
@@ -398,7 +398,7 @@ res_create_alpha_surface(const char *name, const char *dir, gr_surface *pSurface
 		goto exit;
 	}
 
-	if (!(surface = malloc_surface(width * height))) {
+	if (!(surface = res_malloc_surface(width * height))) {
 		result = -8;
 		goto exit;
 	}
@@ -466,7 +466,7 @@ res_create_localized_alpha_surface(const char *name, const char *dir, const char
 	*pSurface = NULL;
 
 	if (!locale) {
-		surface = malloc_surface(0);
+		surface = res_malloc_surface(0);
 		surface->width = 0;
 		surface->height = 0;
 		surface->row_bytes = 0;
@@ -501,7 +501,7 @@ res_create_localized_alpha_surface(const char *name, const char *dir, const char
 			printf("  %20s: %s (%d x %d @ %ld)\n", name, loc, w,
 			       h, (long)y);
 
-			if (!(surface = malloc_surface(w * h))) {
+			if (!(surface = res_malloc_surface(w * h))) {
 				result = -8;
 				goto exit;
 			}

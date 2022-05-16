@@ -88,6 +88,8 @@ void ev_dispatch(void);
 
 /* Resources */
 
+gr_surface res_malloc_surface(size_t data_size);
+
 /* res_create_*_surface() functions return 0 if no error, else
  * negative.
  *
