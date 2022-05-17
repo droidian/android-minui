@@ -50,7 +50,7 @@ library(
 pkg = import('pkgconfig')
 pkg.generate(
 	name: 'minui',
-	libraries: ['libminui'],
+	libraries: ['-lminui'],
 	version: meson.project_version(),
 	description: 'Android minui',
 	subdirs: ['minui']
