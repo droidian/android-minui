@@ -1,0 +1,3 @@
+option('with-fbdev', type : 'feature', value : 'enabled', description : 'Enable fbdev backend')
+option('with-drm', type : 'feature', value : 'auto', description : 'Enable DRM backend')
+option('with-adf', type : 'feature', value : 'auto', description : 'Enable ADF backend')
