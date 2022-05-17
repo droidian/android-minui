@@ -1,0 +1,33 @@
+Source: android-minui
+Priority: optional
+Maintainer: Eugenio Paolantonio (g7) <eugenio@droidian.org>
+Build-Depends: debhelper-compat (= 13),
+               libpng-dev,
+               libdrm-dev,
+               meson (>= 0.53.0),
+               pkg-config,
+Standards-Version: 4.6.1.0
+Section: libs
+Homepage: https://github.com/droidian/android-minui
+Vcs-Git: https://github.com/droidian/android-minui.git
+Vcs-Browser: https://github.com/droidian/android-minui
+Rules-Requires-Root: no
+
+Package: libminui-dev
+Section: libdevel
+Architecture: any
+Multi-Arch: same
+Depends: ${misc:Depends},
+         libminui0 (= ${binary:Version}),
+         libpng-dev,
+         libdrm-dev,
+Description: Android minui  - development headers
+ This package contains the development headers.
+
+Package: libminui0
+Architecture: any
+Multi-Arch: same
+Depends: ${misc:Depends},
+         ${shlibs:Depends},
+Description: Android minui - shared library
+ This package contains the shared library.
