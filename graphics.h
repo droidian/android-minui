@@ -47,9 +47,15 @@ typedef struct minui_backend {
 	void (*restore)(struct minui_backend *backend);
 } minui_backend;
 
+#if WITH_FBDEV
 minui_backend *open_fbdev(void);
+#endif /* WITH_FBDEV */
+#if WITH_ADF
 minui_backend *open_adf(void);
+#endif /* WITH_ADF */
+#if WITH_DRM
 minui_backend *open_drm(void);
+#endif /* WITH_DRM */
 
 #ifdef __cplusplus
 }

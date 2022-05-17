@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+#if WITH_FBDEV
+
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -374,3 +376,5 @@ fbdev_restore(minui_backend *backend)
 	if (double_buffered)
 		fbdev_flip(backend);
 }
+
+#endif /* WITH_FBDEV */

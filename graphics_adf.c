@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+#if WITH_ADF
+
 #include <errno.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -291,3 +293,5 @@ open_adf(void)
 	pdata->base.restore = NULL;
 	return &pdata->base;
 }
+
+#endif /* WITH_ADF */

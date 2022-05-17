@@ -13,6 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+#if WITH_DRM
+
 #include <drm_fourcc.h>
 #include <fcntl.h>
 #include <stdbool.h>
@@ -414,3 +417,5 @@ static minui_backend drm_backend = {
 minui_backend* open_drm() {
     return &drm_backend;
 }
+
+#endif /* WITH_DRM */
