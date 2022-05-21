@@ -69,7 +69,7 @@ static void drm_enable_crtc(int drm_fd, drmModeCrtc *crtc,
                          1,
                          &main_monitor_crtc->mode);
     if (ret)
-        printf("drmModeSetCrtc failed ret=%d\n", ret);
+        fprintf(stderr, "drmModeSetCrtc failed ret=%d\n", ret);
 }
 static void drm_blank(minui_backend* backend __unused, bool blank) {
     if (blank)
@@ -89,14 +89,14 @@ static void drm_destroy_surface(struct drm_surface *surface) {
     if (surface->fb_id) {
         ret = drmModeRmFB(drm_fd, surface->fb_id);
         if (ret)
-            printf("drmModeRmFB failed ret=%d\n", ret);
+            fprintf(stderr, "drmModeRmFB failed ret=%d\n", ret);
     }
     if (surface->handle) {
         memset(&gem_close, 0, sizeof(gem_close));
         gem_close.handle = surface->handle;
         ret = drmIoctl(drm_fd, DRM_IOCTL_GEM_CLOSE, &gem_close);
         if (ret)
-            printf("DRM_IOCTL_GEM_CLOSE failed ret=%d\n", ret);
+            fprintf(stderr, "DRM_IOCTL_GEM_CLOSE failed ret=%d\n", ret);
     }
     free(surface);
 }
@@ -112,7 +112,7 @@ static int drm_format_to_bpp(uint32_t format) {
         case DRM_FORMAT_RGB565:
             return 16;
         default:
-            printf("Unknown format %d\n", format);
+            fprintf(stderr, "Unknown format %d\n", format);
             return 32;
     }
 }
@@ -124,7 +124,7 @@ static struct drm_surface *drm_create_surface(int width, int height,
     int ret;
     surface = (struct drm_surface*)calloc(1, sizeof(*surface));
     if (!surface) {
-        printf("Can't allocate memory\n");
+        fprintf(stderr, "Can't allocate memory\n");
         return NULL;
     }
 #if defined(RECOVERY_ABGR)
@@ -143,7 +143,7 @@ static struct drm_surface *drm_create_surface(int width, int height,
     create_dumb.flags = 0;
     ret = drmIoctl(drm_fd, DRM_IOCTL_MODE_CREATE_DUMB, &create_dumb);
     if (ret) {
-        printf("DRM_IOCTL_MODE_CREATE_DUMB failed ret=%d\n",ret);
+        fprintf(stderr, "DRM_IOCTL_MODE_CREATE_DUMB failed ret=%d\n",ret);
         drm_destroy_surface(surface);
         return NULL;
     }
@@ -156,7 +156,7 @@ static struct drm_surface *drm_create_surface(int width, int height,
             format, handles, pitches, offsets,
             &(surface->fb_id), 0);
     if (ret) {
-        printf("drmModeAddFB2 failed ret=%d\n", ret);
+        fprintf(stderr, "drmModeAddFB2 failed ret=%d\n", ret);
         drm_destroy_surface(surface);
         return NULL;
     }
@@ -165,7 +165,7 @@ static struct drm_surface *drm_create_surface(int width, int height,
     map_dumb.handle = create_dumb.handle;
     ret = drmIoctl(drm_fd, DRM_IOCTL_MODE_MAP_DUMB, &map_dumb);
     if (ret) {
-        printf("DRM_IOCTL_MODE_MAP_DUMB failed ret=%d\n",ret);
+        fprintf(stderr, "DRM_IOCTL_MODE_MAP_DUMB failed ret=%d\n",ret);
         drm_destroy_surface(surface);
         return NULL;;
     }
@@ -352,7 +352,7 @@ static GRSurface* drm_init(minui_backend* backend __unused) {
     main_monitor_connector = find_main_monitor(drm_fd,
             res, &selected_mode);
     if (!main_monitor_connector) {
-        printf("main_monitor_connector not found\n");
+        fprintf(stderr, "main_monitor_connector not found\n");
         drmModeFreeResources(res);
         close(drm_fd);
         return NULL;
@@ -360,7 +360,7 @@ static GRSurface* drm_init(minui_backend* backend __unused) {
     main_monitor_crtc = find_crtc_for_connector(drm_fd, res,
                                                 main_monitor_connector);
     if (!main_monitor_crtc) {
-        printf("main_monitor_crtc not found\n");
+        fprintf(stderr, "main_monitor_crtc not found\n");
         drmModeFreeResources(res);
         close(drm_fd);
         return NULL;
@@ -391,7 +391,7 @@ static GRSurface* drm_flip(minui_backend* backend __unused) {
     ret = drmModePageFlip(drm_fd, main_monitor_crtc->crtc_id,
                           drm_surfaces[current_buffer]->fb_id, 0, NULL);
     if (ret < 0) {
-        printf("drmModePageFlip failed ret=%d\n", ret);
+        fprintf(stderr, "drmModePageFlip failed ret=%d\n", ret);
         return NULL;
     }
     current_buffer = 1 - current_buffer;

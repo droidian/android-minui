@@ -139,7 +139,7 @@ fbdev_init(minui_backend *backend, bool blank)
 	 * If you have a device that actually *needs* another pixel format
 	 * (ie, BGRX, or 565), patches welcome... */
 
-	printf("fb0 reports (possibly inaccurate):\n"
+	fprintf(stderr, "fb0 reports (possibly inaccurate):\n"
 	       "  vi.bits_per_pixel = %d\n"
 	       "  vi.colorspace = %d\n"
 	       "  vi.grayscale = %d\n"
@@ -230,7 +230,7 @@ fbdev_init(minui_backend *backend, bool blank)
 	fb_fd = fd;
 	set_displayed_framebuffer(0);
 
-	printf("framebuffer: %d (%d x %d)\n", fb_fd, gr_draw->width,
+	fprintf(stderr, "framebuffer: %d (%d x %d)\n", fb_fd, gr_draw->width,
 	       gr_draw->height);
 
 	if (blank) {

@@ -174,7 +174,7 @@ gr_texticon(int x, int y, GRSurface *icon)
 		return;
 
 	if (icon->pixel_bytes != 1) {
-		printf("gr_texticon: source has wrong format\n");
+		fprintf(stderr, "gr_texticon: source has wrong format\n");
 		return;
 	}
 
@@ -300,7 +300,7 @@ gr_blit(GRSurface *source, int sx, int sy, int w, int h, int dx, int dy)
 		return;
 
 	if (gr_draw->pixel_bytes != source->pixel_bytes) {
-		printf("gr_blit: source has wrong format\n");
+		fprintf(stderr, "gr_blit: source has wrong format\n");
 		return;
 	}
 
@@ -363,7 +363,7 @@ gr_init_font(void)
 	} else {
 		unsigned char *bits, data, *in = font.rundata;
 
-		printf("failed to read font: res=%d\n", res);
+		fprintf(stderr, "failed to read font: res=%d\n", res);
 
 		/* fall back to the compiled-in font. */
 		/* TODO: Check for error */
