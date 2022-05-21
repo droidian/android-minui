@@ -317,11 +317,11 @@ res_create_multi_display_surface(const char *name, const char *dir, int *frames,
 				break;
 			}
 
-		printf("  found frames = %d\n", *frames);
+		fprintf(stderr, "  found frames = %d\n", *frames);
 	}
 
 	if (height % *frames != 0) {
-		printf("bad height (%ld) for frame count (%d)\n",
+		fprintf(stderr, "bad height (%ld) for frame count (%d)\n",
 		       (long)height, *frames);
 		result = -9;
 		goto exit;
@@ -498,7 +498,7 @@ res_create_localized_alpha_surface(const char *name, const char *dir, const char
 		if (y + 1 + h >= height || matches_locale(loc, locale)) {
 			int i;
 
-			printf("  %20s: %s (%d x %d @ %ld)\n", name, loc, w,
+			fprintf(stderr, "  %20s: %s (%d x %d @ %ld)\n", name, loc, w,
 			       h, (long)y);
 
 			if (!(surface = res_malloc_surface(w * h))) {
