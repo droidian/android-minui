@@ -434,7 +434,10 @@ gr_init(bool blank)
 	gr_backend = open_adf();
 	if (gr_backend) {
 		gr_draw = gr_backend->init(gr_backend, blank);
-
+		if (gr_draw)
+			gr_flip();
+		if (gr_draw)
+			gr_flip();
 		if (!gr_draw)
 			gr_backend->exit(gr_backend);
 	}
@@ -444,7 +447,10 @@ gr_init(bool blank)
 	if (!gr_draw) {
 		gr_backend = open_fbdev();
 		gr_draw = gr_backend->init(gr_backend, blank);
-
+		if (gr_draw)
+			gr_flip();
+		if (gr_draw)
+			gr_flip();
 		if (!gr_draw)
 			gr_backend->exit(gr_backend);
 	}
@@ -452,24 +458,28 @@ gr_init(bool blank)
 
 #if WITH_DRM
 	if (!gr_draw) {
+		/* Assume that failures can happen due to there being
+		 * another process that is trying to release display
+		 * and allow some slack for that to finish.
+		 */
 		gr_backend = open_drm();
-		gr_draw = gr_backend->init(gr_backend, blank);
-		gr_backend->exit(gr_backend);
-
-		gr_backend = open_drm();
-		gr_draw = gr_backend->init(gr_backend, blank);
-		if (!gr_draw)
+		for (int failures = 0;;) {
+			gr_draw = gr_backend->init(gr_backend, blank);
+			if (gr_draw)
+				gr_flip();
+			if (gr_draw)
+				gr_flip();
+			if (gr_draw)
+				break;
 			gr_backend->exit(gr_backend);
+			if (++failures >= 5)
+				break;
+			struct timespec ts = { 0, 100 * 1000 * 1000 };
+			nanosleep(&ts, NULL);
+		}
 	}
 #endif /* WITH_DRM */
 
-	if (!gr_draw)
-		return -1;
-
-	gr_flip();
-	if (!gr_draw)
-		return -1;
-	gr_flip();
 	if (!gr_draw)
 		return -1;
 
