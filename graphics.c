@@ -449,11 +449,15 @@ gr_init(bool blank)
 	if (!gr_draw)
 		return -1;
 
+	gr_flip();
+	if (!gr_draw)
+		return -1;
+	gr_flip();
+	if (!gr_draw)
+		return -1;
+
 	overscan_offset_x = gr_draw->width  * overscan_percent / 100;
 	overscan_offset_y = gr_draw->height * overscan_percent / 100;
-
-	gr_flip();
-	gr_flip();
 
 	return 0;
 }
