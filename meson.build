@@ -18,6 +18,8 @@ dependencies = [
 	dependency('libpng', required: true),
 ]
 
+add_project_arguments('-D_GNU_SOURCE', language: 'c')
+
 fbdev_feature = get_option('with-fbdev')
 if not fbdev_feature.disabled()
 	sources += ['graphics_fbdev.c']

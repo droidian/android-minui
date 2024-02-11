@@ -25,6 +25,7 @@
 #include <sys/mman.h>
 #include <sys/types.h>
 #include <sys/ioctl.h>
+#include <errno.h>
 
 #include <linux/fb.h>
 #include <linux/kd.h>
@@ -92,7 +93,7 @@ text_blend(unsigned char *src_p, int src_row_bytes, unsigned char *dst_p,
 		for (i = 0; i < width; i++) {
 			unsigned char a = *sx++;
 
-			if (gr_current_a < 255)
+			if (gr_current_a < 255) {
 				a = ((int)a * gr_current_a) / 255;
 				if (a == 255) {
 					*px++ = gr_current_r;
@@ -116,6 +117,7 @@ text_blend(unsigned char *src_p, int src_row_bytes, unsigned char *dst_p,
 
 			src_p += src_row_bytes;
 			dst_p += dst_row_bytes;
+		}
 	}
 }
 

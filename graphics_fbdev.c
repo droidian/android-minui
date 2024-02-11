@@ -30,6 +30,7 @@
 #include <sys/cdefs.h>
 #include <sys/ioctl.h>
 #include <sys/types.h>
+#include <errno.h>
 
 #include "minui.h"
 #include "graphics.h"
@@ -111,7 +112,8 @@ fbdev_init(minui_backend *backend, bool blank)
 	if (fd < 0) {
 		fd = open("/dev/fb0", O_RDWR);
 		if (fd < 0) {
-			perror("cannot open fb0");
+			if (errno != ENOENT)
+				perror("cannot open fb0");
 			return NULL;
 		}
 	}
